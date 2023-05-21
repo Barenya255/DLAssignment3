@@ -39,6 +39,8 @@ parser.add_argument('-atn', '--attention', type = str, default = "no", help = "y
 parser.add_argument('-bf', '--bestConf', type = str, default = "yes", help = "yes/no to use best configuration from hyper parameter tuning")
 parser.add_argument('-hs', '--hiddenSize', type = int, default = 300, help = "hidden size")
 parser.add_argument('-es', '--embedding', type = int, default = 128, help = "embedding size" )
+parser.add_argument('-pl', '--plot', type = str, default = "no", help = "To plot or to not" )
+
 
 args = parser.parse_args()
 
@@ -51,6 +53,7 @@ attentionRecord = []
 bestConfig = True if args.bestConf == "yes" else False
 loaded = True if args.load == "yes" else False
 attn = True if args.attention == "yes" else False
+plot = True if args.plot == "yes" else False
 
 
 class PrepText():
@@ -804,8 +807,10 @@ def Test (model, testLoader, batchSize, dataPrepper):
     correct = accuracy (model, testLoader, batchSize)
     
     print (f"accuracy: {(correct/ (len (testLoader)*batchSize))*100}")
-        
-    plotConfusion (predictedList, targetList, dataPrepper)
+
+    if plot == True:    
+        plotConfusion (predictedList, targetList, dataPrepper)
+    
     
     return predictedList, targetList
 
@@ -1009,7 +1014,7 @@ def plotConfusion(predictedList, targetList, dataPrepper):
     '''' For the confusion matrix.'''
 
 
-    font_path = '/kaggle/input/notosans/NotoSansDevanagari-VariableFont_wdth,wght.ttf'  # Path to the uploaded TTF font file
+    font_path = input("Enter tff location so we can plot in devanagiri")  # Path to the uploaded TTF font file
     custom_font = FontProperties(fname=font_path)
 
     plt.rcParams['font.family'] = custom_font.get_name()
