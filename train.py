@@ -25,7 +25,6 @@ import argparse
 '''
 
 parser = argparse.ArgumentParser(description='Training the model as per arguments passed')
-parser.add_argument('-lg', '--log', type = str, default = "no")
 parser.add_argument('-ld', '--load', type = str, default = "NIL", help = "enter name of model to load into and place the model in the same directory.")
 parser.add_argument('-wp', '--wandb_project', type = str, default = "DLAssignment3", help = "Default has been set to my project name. Please change as per required")
 parser.add_argument('-we', '--wandb_entity', type = str, default = "cs22m028")
@@ -33,12 +32,13 @@ parser.add_argument('-e', '--epochs',type = int, default = 20)
 parser.add_argument('-b', '--batchSize',type = int, default = 256)
 parser.add_argument('-lr', '--learningRate', type = float, default = 1e-3)
 parser.add_argument('-ed', '--encoderDropOut', type = float, default = 0.3)
-parser.add_argument('-dd', '--dropOutDropOut', type = float, default = 0.5)
+parser.add_argument('-dd', '--decoderDropOut', type = float, default = 0.5)
 parser.add_argument('-bi', '--biDirectional', type = str, default = "No", help = "yes for a bidirectional LSTM.... If not LSTM, please don't specify. Incorrect dimensions may result")
 parser.add_argument('-rnn', '--rnnType', type = str, default = "GRU", help = "GRU, LSTM, RNN")
 parser.add_argument('-atn', '--attention', type = str, default = "no", help = "yes for adding attention to the network")
 parser.add_argument('-bf', '--bestConf', type = str, default = "yes", help = "yes/no to use best configuration from hyper parameter tuning")
-
+parser.add_argument('-hs', '--hiddenSize', type = int, default = 300, help = "hidden size")
+parser.add_argument('-es', '--embedding', type = int, default = 128, help = "embedding size" )
 
 args = parser.parse_args()
 
@@ -296,6 +296,8 @@ class EncoderRNN(nn.Module):
         ''' initialize the function. 
             create all relevant layers here as per the pytorch pattern.
         '''
+
+
         super(EncoderRNN, self).__init__()
         self.dropout = nn.Dropout(p)
         self.RNN = RNN
@@ -558,7 +560,7 @@ def createData(encodingLength, batchSize):
 
             
 def accuracy(model,dataLoader,batch_size):
-    
+    ''' accuracy function to evaluate the number of correct predictions. '''
     
     correct=0
     
