@@ -25,7 +25,7 @@ import argparse
 '''
 
 parser = argparse.ArgumentParser(description='Training the model as per arguments passed')
-parser.add_argument('-ld', '--load', type = str, default = "NIL", help = "enter name of model to load into and place the model in the same directory.")
+parser.add_argument('-ld', '--load', type = str, default = "no", help = "enter name of model to load into and place the model in the same directory.")
 parser.add_argument('-wp', '--wandb_project', type = str, default = "DLAssignment3", help = "Default has been set to my project name. Please change as per required")
 parser.add_argument('-we', '--wandb_entity', type = str, default = "cs22m028")
 parser.add_argument('-e', '--epochs',type = int, default = 20)
